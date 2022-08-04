@@ -21,11 +21,11 @@ public class TestMain {
     Random rng = new SecureRandom();
     Set<Rank> excludedCards = EnumSet.range(Rank.TWO, Rank.EIGHT);
     deck.shuffle(rng);
-    Spliterator<Card> spliterator = Spliterators.spliterator(deck.iterator(), deck.size(), 0);
+    Spliterator<Card> splitter = Spliterators.spliterator(deck.iterator(), deck.size(), 0);
     List<Card> pinochleCards = StreamSupport
-      .stream(splitter, false)
-        .filter((card) -> !excludedCards.contains(Card.getRank()));
-    .collect((Collectors.toList()));
+        .stream(splitter, false)
+        .filter((card) -> !excludedCards.contains(card.getRank()))
+        .collect(Collectors.toList());
     System.out.println(pinochleCards);
   }
 

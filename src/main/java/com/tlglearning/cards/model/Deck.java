@@ -12,6 +12,7 @@ public class Deck implements Iterable<Card> {
 private final List<Card> cards;
 
   private Random defaultRng;            //Lazy Initialization
+  private Iterator<Card> drawIterator;
 
   public Deck() {
     Suit[] suits = Suit.values();
@@ -34,6 +35,7 @@ private final List<Card> cards;
 
   public void shuffle(Random rng) {       //Shuffle with a source of randomness Utility class
     Collections.shuffle(cards, rng);
+    drawIterator = null;
   }
 
   public void sort() {
@@ -41,6 +43,7 @@ private final List<Card> cards;
   }
   public void sort(Comparator<Card> comparator) {
     cards.sort(comparator);
+    drawIterator = null;
   }
 
   @Override
@@ -54,6 +57,17 @@ private final List<Card> cards;
   }
 
   public int size() {
-    return cards.size;
+    return cards.size();
+  }
+
+  public boolean isEmpty() {
+    return drawIterator != null && !drawIterator.hasNext();
+  }
+
+  public Card draw() {
+    if (drawIterator == null) {
+      drawIterator = cards.iterator();
+    }
+    return drawIterator.next();
   }
 }
